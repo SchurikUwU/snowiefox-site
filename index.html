@@ -105,6 +105,25 @@
   #work .btns a:first-child{border-color:var(--amber);color:var(--amber)}
   #work .btns a:hover{background:rgba(255,207,158,.06)}
   #work .back{align-self:flex-start;color:var(--mute);font-size:11px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit;letter-spacing:1px}
+  #apply{position:fixed;inset:0;z-index:45;display:none;align-items:flex-start;justify-content:center;background:var(--bg);padding:40px 20px;overflow-y:auto}
+  #apply.show{display:flex}
+  #apply .wk{margin:auto;width:min(100%,460px);display:flex;flex-direction:column;gap:18px;color:#d8d2c8}
+  #apply h1{font-family:"Space Grotesk",Arial,sans-serif;font-size:34px;letter-spacing:-1px;color:#ece4f0;text-wrap:balance}
+  #apply .sub{color:var(--amber);font-size:13px;margin-top:-12px}
+  #apply .status{align-self:flex-start;font-size:11px;letter-spacing:1px;color:#7fe0a0;border:1px solid rgba(127,224,160,.35);border-radius:20px;padding:4px 11px}
+  #apply .lab{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+  #apply ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px}
+  #apply li::before{content:'- ';color:var(--mute)}
+  #apply .note{font-size:12px;color:var(--mute);margin-top:8px}
+  #apply .price{font-size:13px;line-height:1.6;color:#b8b0a4}
+  #apply .btns{display:flex;gap:10px;flex-wrap:wrap}
+  #apply .btns a{flex:1 1 180px;text-align:center;text-decoration:none;font-size:13px;letter-spacing:1px;padding:12px 14px;border-radius:10px;border:1px solid #3a3a46;color:#ece4f0}
+  #apply .btns a:first-child{border-color:var(--amber);color:var(--amber)}
+  #apply .btns a:hover{background:rgba(255,207,158,.06)}
+  #apply .back{align-self:flex-start;color:var(--mute);font-size:11px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit;letter-spacing:1px}
+  #apply .txt{font-size:14px;line-height:1.65;color:#cfc7ba;display:flex;flex-direction:column;gap:8px}
+  #apply-invite-opts{margin-top:8px}
+  #apply .end{font-size:11px;color:#55606e;letter-spacing:.5px;margin-top:4px}
   #mood{display:none!important}
   #lite{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;align-items:center;gap:14px;background:#0b0c10;color:#ece4f0;padding:52px 22px 40px;overflow-y:auto}
   #lite.show{display:flex}
@@ -141,6 +160,21 @@
     <button class="back" id="work-back" type="button">&larr; back</button>
   </div>
 </div>
+<div id="apply" role="dialog" aria-labelledby="apply-title">
+  <div class="wk">
+    <h1 id="apply-title"></h1>
+    <div class="sub" id="apply-sub"></div>
+    <div class="status" id="apply-pay"></div>
+    <div class="grp"><div class="lab">the job</div><div class="txt" id="apply-job"></div></div>
+    <div class="grp"><div class="lab">perks</div><ul id="apply-perks"></ul></div>
+    <div class="grp"><div class="lab">bring someone</div><div class="txt" id="apply-invite"></div><ul id="apply-invite-opts"></ul></div>
+    <div class="grp"><div class="lab">send me</div><ul id="apply-send"></ul></div>
+    <div class="grp"><div class="lab">apply</div><div class="txt" id="apply-how"></div></div>
+    <div class="btns" id="apply-btns"></div>
+    <div class="end" id="apply-end"></div>
+    <button class="back" id="apply-back" type="button">&larr; back</button>
+  </div>
+</div>
 <div id="lite">
   <div class="nm" id="lite-name"></div>
   <div class="hd" id="lite-hd"></div>
@@ -170,9 +204,24 @@
     function row(cls, text, label) { var r = document.createElement('div'); r.className = cls; var t = document.createElement('span'); t.textContent = text; r.appendChild(t);
       if (N.url && label) { var a = document.createElement('a'); a.href = N.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = label + ' \u2192'; r.appendChild(a); } el.appendChild(r); }
     el.innerHTML = '<i class="hr"></i>';
-    if (N.hiring) row('h', N.hiring, N.hiringButton || 'apply');
+    if (N.hiring) { row('h', N.hiring, N.hiringButton || 'apply'); if (A) { var ap = el.querySelector('.h a'); if (ap) { ap.removeAttribute('target'); ap.href = '#apply'; ap.addEventListener('click', function (e) { e.preventDefault(); openApply(); }); } } }
     if (N.contact) row('c', N.contact, N.button || 'telegram');
     el.addEventListener('click', function (e) { e.stopPropagation(); }); el.hidden = false;
+  }
+  var A = N && N.apply, pg = document.getElementById('apply');
+  function openApply() { pg.classList.add('show'); pg.scrollTop = 0; }
+  if (A) {
+    var g = function (id) { return document.getElementById(id); };
+    var list = function (id, arr) { var ul = g(id); (arr || []).forEach(function (t) { var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); }); if (!(arr && arr.length)) ul.parentElement.hidden = true; };
+    var paras = function (id, arr) { [].concat(arr || []).forEach(function (t) { var p = document.createElement('p'); p.textContent = t; g(id).appendChild(p); }); };
+    g('apply-title').textContent = A.title || ''; g('apply-sub').textContent = A.sub || ''; g('apply-pay').textContent = A.pay || ''; g('apply-pay').hidden = !A.pay;
+    paras('apply-job', A.job); list('apply-perks', A.perks); paras('apply-invite', A.invite); list('apply-invite-opts', A.inviteOptions); if (A.inviteOptions && A.inviteOptions.length) g('apply-invite-opts').parentElement.hidden = false;
+    list('apply-send', A.send); paras('apply-how', A.how); g('apply-end').textContent = A.footer || '';
+    (A.buttons || []).forEach(function (b) { if (!b.url) return; var a = document.createElement('a'); a.href = b.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = b.label; g('apply-btns').appendChild(a); });
+    g('apply-back').addEventListener('click', function (e) { e.stopPropagation(); pg.classList.remove('show'); });
+    pg.addEventListener('click', function (e) { e.stopPropagation(); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape' && pg.classList.contains('show')) { e.stopImmediatePropagation(); pg.classList.remove('show'); } }, true);
+    if (location.hash === '#apply') openApply();
   }
   fill(document.getElementById('enter-foot'));
   var tag = document.getElementById('lite-tag'); if (tag && N) { var d = document.createElement('div'); d.className = 'lfoot'; tag.after(d); fill(d); }
