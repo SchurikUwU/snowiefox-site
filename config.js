@@ -36,40 +36,50 @@ window.SNOWIE_CONFIG = {
 
     // apply page (opens from the apply button)
     apply: {
-      title: "map layout designer",
-      sub: "for URC",
+      title: "URC | Map Layout Designer",
       pay: "paid in USD or Robux",
-      job: [
-        "The layout is already planned, but only as a written doc. The builder needs a drawing of it.",
-        "You get the doc after applying and turn it into a sketch, a digital drawing or a Studio blockout. Anything works as long as it's clear."
+      intro: [
+        "URC is looking for someone to draw the facility layout.",
+        "The layout is already planned and it currently exists as a written document that describes every room, the sector each one belongs to and how the facility is meant to function.\nWhat the builder needs is a drawing of it.\nYour task is to turn the document into one.\nA sketch, a digital drawing or a Studio blockout are all accepted, as long as the result is clear. You're free to use all.",
+        "You receive the document after applying."
       ],
-      perks: [
-        "contributor tag in game",
-        "special access keycard",
-        "access to more teams",
-        "contributor role in the Discord",
-        "your name in the credits",
-        "a unique cosmetic in game: uniform badge, lanyard or a custom ID badge on one team",
-        "name one room or leave a small detail of your own somewhere in the map"
+      sections: [
+        {
+          label: "Applying",
+          text: ["Open a ticket in https://discord.com/channels/1016772894048669736/1039555160290115634/1502343536002203738 or send a message on Telegram: https://t.me/schurikuwu\nDiscor DMs are not checked for applications."]
+        },
+        {
+          label: "Required information",
+          list: [
+            "Roblox username",
+            "Discor username",
+            "How you intend to draw the layout",
+            "Timezone",
+            "An example of something you have drawn or designed, if you have one"
+          ]
+        },
+        {
+          label: "Contributor perks",
+          text: ["The person who completes the drawing receives:"],
+          list: [
+            "Contributor tag in game",
+            "Special access keycard",
+            "Access to more teams",
+            "Contributor role in the Discor",
+            "Their name in the credits",
+            "A unique cosmetic in game, such as a uniform badge, a lanyard or a custom ID badge on one team",
+            "One room to name, or one small detail of their own placed somewhere in the map"
+          ]
+        },
+        {
+          text: ["If someone comes to mind who would fit this role, they are welcome to be invited to the server. If the person you invite completes the drawing, you can choose one of the following:"],
+          list: [
+            "Something of yours in the facility, such as a custom sticky note or your name on a locker or desk",
+            "A unique cosmetic in game, such as a uniform badge, a lanyard or a custom ID badge on one team"
+          ]
+        }
       ],
-      invite: "If someone you invite does the drawing, you get something too. Pick one:",
-      inviteOptions: [
-        "something of yours in the facility, like a custom sticky note or your name on a locker or desk",
-        "a unique cosmetic in game: uniform badge, lanyard or a custom ID badge on one team"
-      ],
-      send: [
-        "Roblox username",
-        "Discord username",
-        "how you'd draw the layout",
-        "timezone",
-        "an example of something you drew or designed, if you have one"
-      ],
-      how: "Open a ticket in the URC server or msg me on Telegram. Discord DMs aren't checked.",
-      buttons: [
-        { label: "telegram", url: "https://t.me/schurikuwu" },
-        { label: "URC server", url: "" }
-      ],
-      footer: "The facility has been described. It has not yet been seen."
+      footer: "All Apply to me"
     }
   },
 
